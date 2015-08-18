@@ -1,0 +1,33 @@
+{
+  "name": "cool-services",
+  "description": "Framework for support service modules for node.js",
+  "version": "0.0.1",
+  "author": "Andrey Denaev <gsacryfice@gmail.com>",
+  "contributors": [],
+  "license": "MIT",
+  "repository": "senaev/cool-services",
+  "homepage": "http://senaev.com/cool-services",
+  "keywords": [
+    "cool-services",
+    "cool",
+    "services",
+    "framework",
+    "rest",
+    "restful",
+    "app",
+    "api"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js",
+    "lib/"
+  ],
+  "scripts": {}
+}
