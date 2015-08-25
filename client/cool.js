@@ -7,23 +7,17 @@
     var Cool = function() {
     };
 
-    Cool.prototype.call = function() {
+    Cool.prototype.call = function(method, params) {
         var deferred = $.Deferred();
+
         //проверяем какие-то параметры сразу на входе, чтобы не было проблем в дальнейшем
         if (method && typeof method === 'string' && /^[\w\d]{1,}\.[\w\d]{1,}$/.test(method)) {
             $.ajax({
                 method: 'POST',
-                url: '/request/bl',
+                url: servicePath,
                 data: {
                     method: method,
-                    params: JSON.stringify(params),
-                    socketId: (function() {
-                        if (window.socket && typeof window.socket.id === 'string') {
-                            return window.socket.id;
-                        } else {
-                            return null;
-                        }
-                    })()
+                    params: JSON.stringify(params)
                 },
                 success: function(a) {
                     if (a.status && a.status === 'ok') {
@@ -72,6 +66,7 @@
                 }
             });
         }
+
         return deferred.promise();
     };
 

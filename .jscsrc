@@ -67,7 +67,6 @@
       "inProperties", "inArrayExpressions", "inCallExpressions"
     ]
   },
-  "safeContextKeyword": "_this",
   "validateLineBreaks": "LF",
   "validateQuoteMarks": "'",
   "validateIndentation": 4
