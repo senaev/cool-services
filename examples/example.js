@@ -6,10 +6,7 @@ var path = require('path');
 //создаём сервис
 var servicePath = '/service';
 var Service = require(path.normalize(__dirname + '/..'));
-var service = new Service({
-    servicePath: servicePath,
-    tempDataDir: '_temp'
-});
+var service = new Service({sourcePath: __dirname});
 
 //пути для сервиса
 app.post(servicePath, service.call());

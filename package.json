@@ -20,7 +20,8 @@
   "dependencies": {
     "rimraf": "2.4.2",
     "promise": "7.0.4",
-    "body-parser": "1.13.3"
+    "body-parser": "1.13.3",
+    "file": "0.2.2"
   },
   "devDependencies": {
     "express": "4.13.3"
