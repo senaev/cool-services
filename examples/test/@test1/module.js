@@ -6,8 +6,8 @@ module.exports = {
     //выполняетя в контексте модуля бизнес-логики
     init: function(resolve, reject) {
         setTimeout(function() {
-            resolve(123);
-        }, 1000);
+            resolve();
+        }, 2000);
     },
     /**
      * методы бизнес логики: возможны два варианта исполнения:
@@ -26,23 +26,23 @@ module.exports = {
     *    }
      */
     methods: {
-        'ReturnParams': {
+        ReturnParams: {
             isPublic: true,
             method: function(params, done) {
                 done([5, 4, 3, 2, 1, 'params: ', params]);
             }
         },
-        'Passage': {
+        Passage: {
             isPublic: true,
             method: function(params, done) {
                 var self = this,
                     done1 = false,
                     done2 = false;
 
-                params['Passage'] = 'Passage!!!';
+                params.Passage = 'Passage!!!';
                 this.call('Test.Passage1', params, function(result, error) {
                     done1 = true;
-                    params['Passage1'] = error;
+                    params.Passage1 = error;
                     checkDone();
                 });
                 this.call('Test.Passage2', null, function(result, error) {
@@ -59,18 +59,18 @@ module.exports = {
                 }
             }
         },
-        'Passage1': function(params, done) {
+        Passage1: function(params, done) {
             done(null, 'eeeeroroororororor');
         },
-        'Passage2': function(params, done) {
+        Passage2: function(params, done) {
             this.call('Test.Passage3', null, function(result, error) {
                 done({
-                    'Passage3': result,
-                    'Passage2': 'Passage2!!!'
+                    Passage3: result,
+                    Passage2: 'Passage2!!!'
                 });
             });
         },
-        'Passage3': function(params, done) {
+        Passage3: function(params, done) {
             var self = this;
             setTimeout(function() {
                 done(self.getSocketId());
