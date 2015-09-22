@@ -6,7 +6,7 @@ module.exports = {
     //выполняетя в контексте модуля бизнес-логики
     init: function(resolve, reject) {
         setTimeout(function() {
-            resolve();
+            resolve(123);
         }, 2000);
     },
     /**

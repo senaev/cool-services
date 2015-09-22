@@ -1,17 +1,15 @@
 (function() {
     var servicePath = '/service';
-
-    //after this string will be pasted servicePath variable value
-    //service_path_string
-
     var Cool = function() {
     };
 
     Cool.prototype.call = function(method, params) {
+        var _this = this;
+
         return new Promise(function(resolve, reject) {
             $.ajax({
                 method: 'POST',
-                url: servicePath,
+                url: _this.entryPoint,
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
@@ -26,6 +24,10 @@
                 }
             });
         });
+    };
+
+    Cool.prototype.setEntryPoint = function(entryPoint) {
+        this.entryPoint = entryPoint;
     };
 
     //load libraries anr init Cool
