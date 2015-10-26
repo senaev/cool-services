@@ -11,13 +11,24 @@
                 method: 'POST',
                 url: _this.entryPoint,
                 contentType: 'application/json',
-                dataType: 'json',
                 data: JSON.stringify({
                     method: method,
                     params: params
                 }),
-                success: function(data) {
-                    resolve(data);
+                success: function(a) {
+                    if (typeof a === 'object') {
+                        if (a.error === undefined) {
+                            if (a.data !== undefined) {
+                                resolve(a.data);
+                            } else {
+                                reject('Bad answer from server. Data option is not defined: ', a);
+                            }
+                        } else {
+                            reject(a.error);
+                        }
+                    } else {
+                        reject('Bad answer from server: ', a);
+                    }
                 },
                 error: function(err, textStatus, errorName) {
                     reject(err.responseJSON);
