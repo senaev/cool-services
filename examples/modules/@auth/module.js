@@ -13,30 +13,25 @@ module.exports = {
         },
         local: {
             isPublic: true,
-            before: function(params) {
-                params.cookieUser = 'GeT uSeR By CoOkIe';
-                setTimeout(function() {
-                    this.resolve(params);
-                }.bind(this), 500);
+            before: function(o) {
+                o.login = o.login.toLowerCase();
+                o.password = o.password.toLowerCase();
+                return o;
             },
             method: function(params) {
                 return new Promise(function(resolve, reject) {
-                    if (params.login === 'sacryfice' && params.password === 'qwerty') {
-                        resolve('authorized');
-                    } else {
-                        reject('not authorized');
-                    }
+                    params.authorized = !!((params.login === 'sacryfice') && (params.password === 'qwerty'));
+                    resolve(params);
                 }.bind(this));
             },
             after: function(result) {
-                 result.resultArter = 'AdDeD iN rEsUlT aFtEr PaRaMeTeR';
+                result.isAuthorized = result.authorized ? 'Авторизован' : 'Не авторизован';
+                return result;
             }
         },
         notPublic: function() {
             return 'ThIs MeThOd Is NoT pUbLiC';
         }
     },
-    helpers: {
-
-    }
+    helpers: {}
 };

@@ -21,7 +21,7 @@
                             if (a.data !== undefined) {
                                 resolve(a.data);
                             } else {
-                                reject('Bad answer from server. Data option is not defined: ', a);
+                                reject('Bad answer from server. Data option is not defined: ' + a);
                             }
                         } else {
                             reject(a.error);
