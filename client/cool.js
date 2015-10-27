@@ -27,11 +27,11 @@
                             reject(a.error);
                         }
                     } else {
-                        reject('Bad answer from server: ', a);
+                        reject('Bad answer from server: ' + a);
                     }
                 },
                 error: function(err, textStatus, errorName) {
-                    reject(err.responseJSON);
+                    reject(arguments);
                 }
             });
         });
