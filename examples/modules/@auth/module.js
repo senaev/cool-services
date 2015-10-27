@@ -5,28 +5,35 @@ module.exports = {
         }, 1000);
     },
     methods: {
-        'current': {
+        current: {
             isPublic: true,
             method: function(params, done) {
                 done([5, 4, 3, 2, 1, 'params: ', params]);
             }
         },
-        'local': {
+        local: {
             isPublic: true,
             before: function(params) {
                 params.cookieUser = 'GeT uSeR By CoOkIe';
-                return params;
+                setTimeout(function() {
+                    this.resolve(params);
+                }.bind(this), 500);
             },
             method: function(params) {
-                var self = this;
-                setTimeout(function() {
-                    params.methodParam = 'MeThOd PaRaM';
-                    self.resolve(params);
-                }, 3000);
+                return new Promise(function(resolve, reject) {
+                    if (params.login === 'sacryfice' && params.password === 'qwerty') {
+                        resolve('authorized');
+                    } else {
+                        reject('not authorized');
+                    }
+                }.bind(this));
             },
             after: function(result) {
                  result.resultArter = 'AdDeD iN rEsUlT aFtEr PaRaMeTeR';
             }
+        },
+        notPublic: function() {
+            return 'ThIs MeThOd Is NoT pUbLiC';
         }
     },
     helpers: {

@@ -31,10 +31,19 @@
                     }
                 },
                 error: function(err, textStatus, errorName) {
-                    reject(arguments);
+                    if (typeof err.responseJSON === 'object' && typeof err.responseJSON.error === 'object') {
+                        reject(err.responseJSON.error);
+                    } else {
+                        reject({
+                            code: err.status,
+                            message: err.responseText || textStatus,
+                            details: err
+                        });
+                    }
                 }
             });
         });
+        //TODO: move all conditions to resolved function
     };
 
     Cool.prototype.setEntryPoint = function(entryPoint) {
