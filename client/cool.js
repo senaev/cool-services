@@ -18,8 +18,8 @@
                 success: function(a) {
                     if (typeof a === 'object') {
                         if (a.error === undefined) {
-                            if (a.data !== undefined) {
-                                resolve(a.data);
+                            if (a.result !== undefined) {
+                                resolve(a.result);
                             } else {
                                 reject('Bad answer from server. Data option is not defined: ' + a);
                             }

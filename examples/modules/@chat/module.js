@@ -1,44 +1,57 @@
 module.exports = {
     methods: {
-        ReturnParams: {
-            isPublic: true,
-            method: function(params, done) {
-                done([5, 4, 3, 2, 1, 'params: ', params]);
+        test: {
+            isApi: true,
+            method: function(params) {
+                this.call('Passage').then(function() {
+                    this.resolve([5, 4, 3, 2, 1, 'params: ', params]);
+                }.bind(this));
             }
         },
         Passage: {
             isPublic: true,
-            method: function(params, done) {
+            method: function(params) {
                 var self = this,
                     done1 = false,
                     done2 = false;
 
+                params = params || {};
+
                 params.Passage = 'Passage!!!';
-                this.call('Test.Passage1', params, function(result, error) {
+                this.call('Passage1', params).then(function(result, error) {
                     done1 = true;
                     params.Passage1 = error;
                     checkDone();
+                }, function() {
+                    done1 = true;
+                    checkDone();
                 });
-                this.call('Test.Passage2', null, function(result, error) {
+
+                this.call('Passage2').then(function(result) {
                     for (var key in result) {
                         params[key] = result[key];
                     }
                     done2 = true;
                     checkDone();
+                }, function() {
+                    done2 = true;
+                    checkDone();
                 });
+
                 function checkDone() {
                     if (done1 && done2) {
-                        done(params);
+                        self.resolve(params);
                     }
                 }
             }
         },
-        Passage1: function(params, done) {
-            done(null, 'eeeeroroororororor');
+        Passage1: function(params) {
+            this.error('qweeeeeeeeeeee')
         },
         Passage2: function(params, done) {
-            this.call('Test.Passage3', null, function(result, error) {
-                done({
+            var self = this;
+            this.call('Passage3').then(function(result, error) {
+                self.resolve({
                     Passage3: result,
                     Passage2: 'Passage2!!!'
                 });
@@ -47,7 +60,7 @@ module.exports = {
         Passage3: function(params, done) {
             var self = this;
             setTimeout(function() {
-                done(self.getSocketId());
+                self.resolve('Passage3333');
             }, 1234);
         }
     }

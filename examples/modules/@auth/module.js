@@ -7,8 +7,8 @@ module.exports = {
     methods: {
         current: {
             isPublic: true,
-            method: function(params, done) {
-                done([5, 4, 3, 2, 1, 'params: ', params]);
+            method: function(params) {
+                this.resolve([5, 4, 3, 2, 1, 'params: ', params]);
             }
         },
         local: {
@@ -19,10 +19,7 @@ module.exports = {
                 return o;
             },
             method: function(params) {
-                return new Promise(function(resolve, reject) {
-                    params.authorized = !!((params.login === 'sacryfice') && (params.password === 'qwerty'));
-                    resolve(params);
-                }.bind(this));
+                return this.call('chat.test', params);
             },
             after: function(result) {
                 result.isAuthorized = result.authorized ? 'Авторизован' : 'Не авторизован';
