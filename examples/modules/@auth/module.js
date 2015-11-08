@@ -8,7 +8,7 @@ module.exports = {
         current: {
             isPublic: true,
             method: function(params) {
-                this.resolve([5, 4, 3, 2, 1, 'params: ', params]);
+                return this.call('local', params);
             }
         },
         local: {

@@ -43,6 +43,9 @@ module.exports = {
                         self.resolve(params);
                     }
                 }
+            },
+            after: function() {
+                throw 'qwe';
             }
         },
         Passage1: function(params) {
