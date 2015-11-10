@@ -2,7 +2,7 @@ module.exports = {
     init: function(resolve, reject) {
         setTimeout(function() {
             resolve();
-        }, 1000);
+        }, 20);
     },
     methods: {
         current: {

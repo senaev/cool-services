@@ -7,7 +7,7 @@ module.exports = {
     init: function(resolve, reject) {
         setTimeout(function() {
             resolve(123);
-        }, 2000);
+        }, 30);
     },
     /**
      * методы бизнес логики: возможны два варианта исполнения:
