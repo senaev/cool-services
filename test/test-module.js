@@ -23,6 +23,38 @@ describe('Service', function () {
                 expect(o).to.have.property('name');
                 expect(o.result).to.have.property('add');
                 expect(o.result.add).to.equal('add');
+                expect(o.time).that.is.an('number');
+            });
+        });
+
+        it('Passage with one child', function () {
+            return (service.call('test.passageWithOneChild')).then(function (o) {
+                expect(o).to.have.property('childs')
+                    .that.is.an('array')
+                    .to.have.length(1)
+                    .with.deep.property('[0]');
+
+                expect(o).to.have.property('name')
+                    .to.equal('test.passageWithOneChild');
+
+                expect(o).to.have.property('result')
+                    .to.equal('Wello, world! Hello, everybody!');
+
+                expect(o).to.have.property('time')
+                    .that.is.an('number');
+
+                let child = o.childs[0];
+                expect(child).to.have.property('name')
+                    .to.equal('test.returnHelloWorld');
+
+                expect(child).to.have.property('params')
+                    .to.equal('some_param');
+
+                expect(child).to.have.property('result')
+                    .to.equal('Wello, world!');
+
+                expect(child).to.have.property('time')
+                    .that.is.an('number');
             });
         });
     });

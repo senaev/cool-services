@@ -14,6 +14,17 @@ module.exports = {
                 return params;
             }
         },
+        passageWithOneChild: {
+            isPublic: true,
+            method: function() {
+                this.call('returnHelloWorld', 'some_param').then(str => {
+                    this.resolve(str + ' Hello, everybody!')
+                });
+            }
+        },
+        returnHelloWorld: function() {
+            return 'Wello, world!';
+        },
         throwError1: {
             isPublic: true,
             method: function() {
