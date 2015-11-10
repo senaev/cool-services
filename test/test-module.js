@@ -26,8 +26,10 @@ describe('Service', function () {
                 expect(o.time).that.is.an('number');
             });
         });
+    });
 
-        it('Passage with one child', function () {
+    describe('Passage', () => {
+        it('With one child', function () {
             return (service.call('test.passageWithOneChild')).then(function (o) {
                 expect(o).to.have.property('childs')
                     .that.is.an('array')
@@ -55,6 +57,19 @@ describe('Service', function () {
 
                 expect(child).to.have.property('time')
                     .that.is.an('number');
+            });
+        });
+
+        it('With one child returns error', function () {
+            return (service.call('test.passageWithOneChildReturnsError')).catch(function (o) {
+                expect(o).to.have.property('error');
+                expect(o.error).to.have.property('message');
+                expect(o.error.message).to.be.equal('123');
+                expect(o.error).to.have.property('trace')
+                    .that.is.an('array')
+                    .with.deep.property('[0]')
+                    .with.deep.property('fileName')
+                    .to.contain('@test\\module.js');
             });
         });
     });

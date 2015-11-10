@@ -22,6 +22,14 @@ module.exports = {
                 });
             }
         },
+        passageWithOneChildReturnsError: {
+            isPublic: true,
+            method: function() {
+                this.call('returnHelloWorld', 'some_param').then(str => {
+                    throw '123';
+                });
+            }
+        },
         returnHelloWorld: function() {
             return 'Wello, world!';
         },
