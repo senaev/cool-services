@@ -41,5 +41,7 @@
     "index.js",
     "lib/"
   ],
-  "scripts": {}
+  "scripts": {
+    "test": "mocha"
+  }
 }
