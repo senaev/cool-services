@@ -22,7 +22,6 @@
     "promise": "7.0.4",
     "body-parser": "1.13.3",
     "file": "0.2.2",
-    "promise-function": "0.0.12",
     "clone": "1.0.2",
     "stack-trace": "0.0.9"
   },
