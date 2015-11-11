@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
     var servicePath = '/service';
     var Cool = function() {

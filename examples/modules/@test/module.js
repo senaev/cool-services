@@ -14,6 +14,12 @@ module.exports = {
                 return params;
             }
         },
+        returnParamAsync: {
+            isPublic: true,
+            method: function(params) {
+                setTimeout(this.resolve, 500, params);
+            }
+        },
         passageWithOneChild: {
             isPublic: true,
             method: function() {
@@ -22,16 +28,37 @@ module.exports = {
                 });
             }
         },
+        asyncPassageWith4ChildsAnd1Error: {
+            isPublic: true,
+            method: function() {
+                this.call('throwError1');
+                Promise.all([
+                    this.call('asyncString0'),
+                    this.call('asyncString1'),
+                    this.call('asyncString2')
+                ]).then(results => {
+                    this.resolve(results.join(','));
+                })
+            }
+        },
         passageWithOneChildReturnsError: {
             isPublic: true,
             method: function() {
                 this.call('returnHelloWorld', 'some_param').then(str => {
-                    throw '123';
+                    this.reject('123');
+                });
+            }
+        },
+        throwAsyncErrorInCallCallback: {
+            isPublic: true,
+            method: function() {
+                return this.call('returnHelloWorld', 'some_param').then(str => {
+                    throw 123;
                 });
             }
         },
         returnHelloWorld: function() {
-            return 'Wello, world!';
+            return 'Hello, world!';
         },
         throwError1: {
             isPublic: true,
@@ -63,6 +90,21 @@ module.exports = {
             method: function() {
                 throw new ServiceError('123');
             }
+        },
+        asyncString0: function() {
+            setTimeout(() => {
+                this.resolve('0');
+            }, 50);
+        },
+        asyncString1: function() {
+            setTimeout(() => {
+                this.resolve('1');
+            }, 60);
+        },
+        asyncString2: function() {
+            setTimeout(() => {
+                this.resolve('2');
+            }, 40);
         }
     },
     helpers: {
