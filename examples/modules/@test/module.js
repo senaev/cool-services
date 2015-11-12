@@ -108,6 +108,14 @@ module.exports = {
                 throw new ServiceError('123');
             }
         },
+        returnCircular: {
+            isPublic: true,
+            method: function() {
+                let x = {};
+                x.x = x;
+                return x;
+            }
+        },
         asyncString0: function() {
             setTimeout(() => {
                 this.resolve('0');

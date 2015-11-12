@@ -40,7 +40,7 @@ describe('Service', function () {
 
                 expect(o).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(499);
+                    .to.be.above(497);
             });
         });
     });
@@ -144,7 +144,7 @@ describe('Service', function () {
                     .to.be.equal('0');
                 expect(first).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(49);
+                    .to.be.above(47);
 
                 let second = o.childs[2];
                 expect(second).to.have.property('name')
@@ -153,7 +153,7 @@ describe('Service', function () {
                     .to.be.equal('1');
                 expect(second).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(59);
+                    .to.be.above(57);
 
                 let third = o.childs[3];
                 expect(third).to.have.property('name')
@@ -162,7 +162,7 @@ describe('Service', function () {
                     .to.be.equal('2');
                 expect(third).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(39);
+                    .to.be.above(37);
             });
         });
 
@@ -178,7 +178,7 @@ describe('Service', function () {
                     .to.have.length(4);
                 expect(o).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(399);
+                    .to.be.above(397);
 
                 let first = o.childs[0];
                 expect(first).to.have.property('name')
@@ -187,10 +187,10 @@ describe('Service', function () {
                     .to.be.equal('0');
                 expect(first).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(49);
+                    .to.be.above(47);
                 expect(first).to.have.property('start')
                     .that.is.an('number')
-                    .to.be.above(99);
+                    .to.be.above(97);
 
                 let second = o.childs[1];
                 expect(second).to.have.property('name')
@@ -199,10 +199,10 @@ describe('Service', function () {
                     .to.be.equal('1');
                 expect(second).to.have.property('time')
                     .that.is.an('number')
-                    .to.be.above(59);
+                    .to.be.above(57);
                 expect(second).to.have.property('start')
                     .that.is.an('number')
-                    .to.be.above(199);
+                    .to.be.above(197);
 
                 let third = o.childs[2];
                 expect(third).to.have.property('name')
@@ -214,7 +214,7 @@ describe('Service', function () {
                     .to.be.above(39);
                 expect(third).to.have.property('start')
                     .that.is.an('number')
-                    .to.be.above(299);
+                    .to.be.above(297);
 
                 let error = o.childs[3];
                 expect(error).to.have.property('error')
@@ -222,7 +222,7 @@ describe('Service', function () {
                     .to.contain('is not a function');
                 expect(error).to.have.property('start')
                     .that.is.an('number')
-                    .to.be.above(399);
+                    .to.be.above(397);
 
                 expect([o.result[0], o.result[1], o.result[2]]).to.eql(['0', '1', '2']);
                 expect(JSON.stringify(o.childs[3].error))
@@ -314,6 +314,53 @@ describe('Service', function () {
                     .to.be.equal(`Method 'undefinedMethod' has not found in module 'test'`);
                 expect(o).to.have.property('trace')
                     .that.is.an('array');
+            });
+        });
+
+        it('Undefined module', () => {
+            return (service.callInternal('test1.undefined')).catch(o => {
+                expect(o).to.have.property('code')
+                    .to.equal(400);
+                expect(o).to.have.property('message')
+                    .to.equal(`Module 'test1' has not found in service`);
+                expect(o).to.have.property('trace')
+                    .that.is.an('array');
+            });
+        });
+
+        it('Call with circle param', () => {
+            let x = {};
+            x.x = x;
+            return (service.callInternal('test.returnParamsWithAddValue', x)).catch(o => {
+                expect(o).to.have.property('name')
+                    .to.equal('test.returnParamsWithAddValue');
+                expect(o).to.have.property('error')
+                    .that.is.an('object');
+
+                let error = o.error;
+                expect(error).to.have.property('message')
+                    .to.equal('Internal server error');
+                expect(error).to.have.property('code')
+                    .to.equal(508);
+                expect(error).to.have.property('details')
+                    .to.equal('Method test.returnParamsWithAddValue has been called with circular params');
+                expect(error).to.have.property('trace')
+                    .that.is.an('array');
+            });
+        });
+
+        it('Call returns circular result', () => {
+            return (service.callInternal('test.returnCircular', 'some_param')).catch(o => {
+                expect(o).have.property('name').equal('test.returnCircular');
+                expect(o).have.property('error').is.an('object');
+                expect(o).have.property('time').is.an('number').above(-1);
+                expect(o).have.property('params').equal('some_param');
+
+                let error = o.error;
+                expect(error).have.property('code').equal(508);
+                expect(error).have.property('details').equal('Method test.returnCircular returns circular result');
+                expect(error).have.property('trace').is.an('array');
+                expect(error).have.property('message').equal('Internal server error');
             });
         });
     });
