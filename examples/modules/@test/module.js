@@ -41,6 +41,23 @@ module.exports = {
                 })
             }
         },
+        asyncPassageWith4ChildsAnd1ErrorWithDifBegin: {
+            isPublic: true,
+            method: function() {
+                var promises = [];
+                let methods = ['asyncString0', 'asyncString1', 'asyncString2', 'throwError1'];
+                return new Promise(resolve => {
+                    methods.forEach((methodName, i) => {
+                        setTimeout(() => {
+                            promises.push(this.call(methodName).catch(error => {
+                                return Promise.resolve(error);
+                            }));
+                            i === 3 && resolve(Promise.all(promises));
+                        }, (i + 1) * 100)
+                    });
+                });
+            }
+        },
         passageWithOneChildReturnsError: {
             isPublic: true,
             method: function() {

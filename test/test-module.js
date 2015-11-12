@@ -165,6 +165,70 @@ describe('Service', function () {
                     .to.be.above(39);
             });
         });
+
+        it('Different childs begin time', () => {
+            return service.callInternal('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin').then(o => {
+                expect(o).to.have.property('childs')
+                    .that.is.an('array')
+                    .to.have.length(4);
+                expect(o).to.have.property('name')
+                    .to.equal('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin');
+                expect(o).to.have.property('result')
+                    .that.is.an('array')
+                    .to.have.length(4);
+                expect(o).to.have.property('time')
+                    .that.is.an('number')
+                    .to.be.above(399);
+
+                let first = o.childs[0];
+                expect(first).to.have.property('name')
+                    .to.be.equal('test.asyncString0');
+                expect(first).to.have.property('result')
+                    .to.be.equal('0');
+                expect(first).to.have.property('time')
+                    .that.is.an('number')
+                    .to.be.above(49);
+                expect(first).to.have.property('start')
+                    .that.is.an('number')
+                    .to.be.above(99);
+
+                let second = o.childs[1];
+                expect(second).to.have.property('name')
+                    .to.be.equal('test.asyncString1');
+                expect(second).to.have.property('result')
+                    .to.be.equal('1');
+                expect(second).to.have.property('time')
+                    .that.is.an('number')
+                    .to.be.above(59);
+                expect(second).to.have.property('start')
+                    .that.is.an('number')
+                    .to.be.above(199);
+
+                let third = o.childs[2];
+                expect(third).to.have.property('name')
+                    .to.be.equal('test.asyncString2');
+                expect(third).to.have.property('result')
+                    .to.be.equal('2');
+                expect(third).to.have.property('time')
+                    .that.is.an('number')
+                    .to.be.above(39);
+                expect(third).to.have.property('start')
+                    .that.is.an('number')
+                    .to.be.above(299);
+
+                let error = o.childs[3];
+                expect(error).to.have.property('error')
+                    .to.have.property('message')
+                    .to.contain('is not a function');
+                expect(error).to.have.property('start')
+                    .that.is.an('number')
+                    .to.be.above(399);
+
+                expect([o.result[0], o.result[1], o.result[2]]).to.eql(['0', '1', '2']);
+                expect(JSON.stringify(o.childs[3].error))
+                    .to.equal(JSON.stringify(o.result[3].error));
+            });
+        });
     });
 
     describe('Return error', () => {
