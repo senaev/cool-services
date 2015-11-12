@@ -13,6 +13,37 @@ module.exports = {
             method: function() {
                 return this.call('test.throwError5');
             }
+        },
+        callMethodReturnsComplicatedTree: {
+            isPublic: true,
+            method: function() {
+                return Promise.all([
+                    this.call('test.asyncPassageWith4ChildsAnd1Error'),
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            this.call('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin')
+                                .then(result => resolve(result
+                                    .filter(item => typeof item === 'string')
+                                    .join('-')
+                                ))
+                                .catch(error => reject(error))
+                        }, 50);
+                    })
+                ]).then(result => result.join(' and '));
+            }
+        },
+        checkToAccessilble: {
+            isPublic: true,
+            method: function() {
+                return Promise.all([
+                    this.call('test.publicMethod'),
+                    this.call('test.apiMethod'),
+                    this.call('test.privateMethod').catch(error => {
+                        console.error(error);
+                        return Promise.resolve(error);
+                    })
+                ]);
+            }
         }
     }
 };

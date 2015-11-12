@@ -238,6 +238,13 @@ describe('Service', function () {
                 expect(error).property('message').eql('Internal server error');
             });
         });
+
+        it('Request calls count exceed', () => {
+            return service.call('test.circle1').catch(error => {
+                expect(error).an('object').property('code').eql(507);
+                expect(error).property('details').eql('Request call count exceeded in test.circle2 (512th calls)');
+            });
+        });
     });
 
     describe('Modules cooperation', () => {
@@ -251,6 +258,21 @@ describe('Service', function () {
             return service.call('test1.callPublicMethodReturnsError').catch(error => {
                 expect(error).property('message').eql('123');
                 expect(error).property('trace').an('array')
+            });
+        });
+
+        it ('Method in other module returns complicated tree', () => {
+            return service.call('test1.callMethodReturnsComplicatedTree').then(result => {
+                expect(result).eql('0,1,2 and 0-1-2');
+            });
+        });
+
+        it ('Check to accessible method', () => {
+            return service.call('test1.checkToAccessible').then(result => {
+
+                expect(result).an('array').length(3);
+                expect(result[0]).eql('is public method');
+                expect(result[1]).eql('is api method');
             });
         });
     });

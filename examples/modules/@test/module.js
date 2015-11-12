@@ -130,6 +130,32 @@ module.exports = {
             setTimeout(() => {
                 this.resolve('2');
             }, 40);
+        },
+        circle1: {
+            isPublic: true,
+            method: function() {
+                return this.call('circle2');
+            }
+        },
+        circle2: function() {
+            setTimeout(() => {
+                this.resolve(this.call('circle1'));
+            }, 1);
+        },
+        publicMethod: {
+            isPublic: true,
+            method: function() {
+                return 'is public method';
+            }
+        },
+        apiMethod: {
+            isApi: true,
+            method: function() {
+                return 'is api method';
+            }
+        },
+        privateMethod: function() {
+            return 'is private method';
         }
     },
     helpers: {
