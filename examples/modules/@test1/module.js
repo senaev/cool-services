@@ -32,16 +32,13 @@ module.exports = {
                 ]).then(result => result.join(' and '));
             }
         },
-        checkToAccessilble: {
+        checkToAccessible: {
             isPublic: true,
             method: function() {
                 return Promise.all([
                     this.call('test.publicMethod'),
                     this.call('test.apiMethod'),
-                    this.call('test.privateMethod').catch(error => {
-                        console.error(error);
-                        return Promise.resolve(error);
-                    })
+                    this.call('test.privateMethod').catch(error => Promise.resolve(error))
                 ]);
             }
         }
