@@ -1,13 +1,12 @@
 'use strict';
 
-let path = require('path');
-let chai = require('chai');
-require("mocha-as-promised")();
-let expect = chai.expect;
+const path = require('path');
+const chai = require('chai');
+const expect = chai.expect;
 
 //создаём сервис
-let Service = require(path.normalize(__dirname + '/..'));
-let service = new Service();
+const Service = require(path.normalize(__dirname + '/..'));
+const service = new Service();
 
 before(function() {
     return service.addSource(path.normalize(__dirname + '/../examples/modules'));
