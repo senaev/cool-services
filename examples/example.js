@@ -1,12 +1,11 @@
 //создаём приложение
-var express = require('express');
-var app = express();
-var path = require('path');
+const app = require('express')();
+const path = require('path');
 
 //создаём сервис
-var servicePath = '/service';
-var Service = require(path.normalize(__dirname + '/..'));
-var service = new Service();
+const servicePath = '/service';
+const Service = require(path.normalize(__dirname + '/..'));
+const service = new Service();
 
 //добавляем модули бизнес-логики
 service.addSource(__dirname);
@@ -27,6 +26,6 @@ app.get('/', function(req, res) {
 });
 
 //слушаем порт
-var port = 80;
+const port = 80;
 app.listen(port);
 console.log('Application listen port: ' + port);

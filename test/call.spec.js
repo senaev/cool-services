@@ -12,7 +12,7 @@ before(function() {
     return service.addSource(path.normalize(__dirname + '/../examples/modules'));
 });
 
-describe('Service', function() {
+describe('Call', function() {
     describe('Return simple results', () => {
         it('Add param', () => {
             return service.callInternal('test.returnParamsWithAddValue', {}).then(o => {
