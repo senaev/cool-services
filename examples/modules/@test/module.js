@@ -4,6 +4,7 @@ var ServiceError;
 module.exports = {
     init: function(resolve) {
         ServiceError = this.ServiceError;
+        this.set('array', [1, 2, 3]).set('object', {param: 'param'});
         resolve();
     },
     methods: {
@@ -156,6 +157,15 @@ module.exports = {
         },
         privateMethod: function() {
             return 'is private method';
+        },
+        getModuleParam: {
+            isPublic: true,
+            method: function(str) {
+                let arr = this.get('array');
+                arr.push(this.get('object'), str);
+                this.get('object').param = 123;
+                return arr;
+            }
         }
     },
     helpers: {

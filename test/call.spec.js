@@ -9,11 +9,11 @@ let expect = chai.expect;
 let Service = require(path.normalize(__dirname + '/..'));
 let service = new Service();
 
-before(function () {
+before(function() {
     return service.addSource(path.normalize(__dirname + '/../examples/modules'));
 });
 
-describe('Service', function () {
+describe('Service', function() {
     describe('Return simple results', () => {
         it('Add param', () => {
             return service.callInternal('test.returnParamsWithAddValue', {}).then(o => {
@@ -284,4 +284,14 @@ describe('Service', function () {
             });
         });
     });
+
+    describe('Module', () => {
+        it('Settled params', () => {
+            return service.call('test.getModuleParam', '123').then(result => {
+                expect(result).eql([1, 2, 3, {param: 123}, '123']);
+            });
+        });
+    });
+
+    //TODO: Service internal/external calls tests
 });
