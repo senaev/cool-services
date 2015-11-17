@@ -25,7 +25,7 @@ service1.addExternal({
     'localhost:45973/service': ['test', 'test1']
 });
 
-describe('Service', function() {
+/*describe('Service', function() {
     describe('External calls in service', () => {
         it('Test test2 module', () => {
             return service1.call('test2.returnString', {}).then(str => {
@@ -39,4 +39,4 @@ describe('Service', function() {
             });
         });
     });
-});
+});*/
