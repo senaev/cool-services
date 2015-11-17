@@ -13,7 +13,6 @@ service.addSource(__dirname);
 //пути для сервиса
 app.post(servicePath, service.call());
 
-//
 app.get('/service/service.js', service.client());
 
 //страница для тестов

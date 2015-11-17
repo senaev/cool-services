@@ -34,7 +34,7 @@ describe('Service', function() {
         });
 
         it('Test external module', () => {
-            return service1.call('test2.returnString', {}).then(str => {
+            return service1.call('test.returnHelloWorld').then(str => {
                 expect(str).eql('returning_string');
             });
         });
