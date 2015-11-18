@@ -24,17 +24,17 @@ describe('Call', function() {
             });
         });
 
-        /*it('Return param async', () => {
+        it('Return param async', () => {
             return service.callRequest('test.returnParamAsync', 'hello').then(o => {
                 expect(o).property('name').eql('test.returnParamAsync');
                 expect(o).property('params').eql('hello');
                 expect(o).property('result').eql('hello');
                 expect(o).property('time').an('number').above(497);
             });
-        });*/
+        });
     });
 
-    /*describe('Passage', () => {
+    describe('Passage', () => {
         it('With one child', () => {
             return service.callRequest('test.passageWithOneChild').then(o => {
                 expect(o).property('childs').an('array').length(1);
@@ -292,5 +292,5 @@ describe('Call', function() {
         });
     });
 
-    //TODO: Service internal/external calls tests*/
+    //TODO: Service internal/external calls tests
 });
