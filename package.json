@@ -18,11 +18,8 @@
     "api"
   ],
   "dependencies": {
-    "rimraf": "2.4.2",
-    "promise": "7.0.4",
     "body-parser": "1.13.3",
-    "file": "0.2.2",
-    "clone": "1.0.2",
+    "request": "^2.66.0",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
