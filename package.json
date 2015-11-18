@@ -19,12 +19,12 @@
   ],
   "dependencies": {
     "body-parser": "1.13.3",
+    "express": "4.13.3",
     "request": "^2.66.0",
     "stack-trace": "0.0.9"
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "express": "4.13.3",
     "mocha": "^2.3.3"
   },
   "engines": {
