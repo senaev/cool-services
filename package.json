@@ -38,6 +38,6 @@
     "lib/"
   ],
   "scripts": {
-    "test": "mocha"
+    "test": "mocha -t 10000"
   }
 }
