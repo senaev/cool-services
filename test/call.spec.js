@@ -201,7 +201,7 @@ describe('calls', function() {
         it('undefined module', () => {
             return service.call('undefinedModule.undefined').catch(o => {
                 expect(o).property('code').eql(400);
-                expect(o).property('message').eql(`Module 'undefinedModule' has not found in service`);
+                expect(o).property('message').eql(`Module undefinedModule has not found in service`);
                 expect(o).property('trace').an('array');
             });
         });
