@@ -12,20 +12,20 @@ before(function() {
     return service.addSource(path.normalize(__dirname + '/../examples/modules'));
 });
 
-describe('call', function() {
-    describe('Return simple results', () => {
-        it('Add param', () => {
-            return service.callRequest('test.returnParamsWithAddValue', {}).then(o => {
+describe('calls', function() {
+    describe('return simple results', () => {
+        it('add param', () => {
+            return service.callInternal('test.returnParamsWithAddValue', {}).then(o => {
                 expect(o).property('result');
-                expect(o).property('time').an('number');
+                expect(o).property('time').an('number').above(-1);
                 expect(o).property('params');
                 expect(o).property('name');
                 expect(o.result).property('add').eql('add');
             });
         });
 
-        it('Return param async', () => {
-            return service.callRequest('test.returnParamAsync', 'hello').then(o => {
+        it('return param async', () => {
+            return service.callInternal('test.returnParamAsync', 'hello').then(o => {
                 expect(o).property('name').eql('test.returnParamAsync');
                 expect(o).property('params').eql('hello');
                 expect(o).property('result').eql('hello');
@@ -34,9 +34,9 @@ describe('call', function() {
         });
     });
 
-    describe('Passage', () => {
-        it('With one child', () => {
-            return service.callRequest('test.passageWithOneChild').then(o => {
+    describe('passage', () => {
+        it('with one child', () => {
+            return service.callInternal('test.passageWithOneChild').then(o => {
                 expect(o).property('childs').an('array').length(1);
                 expect(o).property('name').eql('test.passageWithOneChild');
                 expect(o).property('result').eql('Hello, world! Hello, everybody!');
@@ -50,8 +50,8 @@ describe('call', function() {
             });
         });
 
-        it('With one child returns error', () => {
-            return service.callRequest('test.passageWithOneChildReturnsError').catch(o => {
+        it('with one child returns error', () => {
+            return service.callInternal('test.passageWithOneChildReturnsError').catch(o => {
                 expect(o).property('childs').an('array').length(1);
                 expect(o).property('error');
                 expect(o).property('name').eql('test.passageWithOneChildReturnsError');
@@ -69,8 +69,8 @@ describe('call', function() {
             });
         });
 
-        it('Async with 4 childs and 1 error', () => {
-            return service.callRequest('test.asyncPassageWith4ChildsAnd1Error').then(o => {
+        it('async with 4 childs and 1 error', () => {
+            return service.callInternal('test.asyncPassageWith4ChildsAnd1Error').then(o => {
                 expect(o).property('childs').an('array').length(4);
                 expect(o).property('name').eql('test.asyncPassageWith4ChildsAnd1Error');
                 expect(o).property('result').eql('0,1,2');
@@ -102,8 +102,8 @@ describe('call', function() {
             });
         });
 
-        it('Different childs begin time', () => {
-            return service.callRequest('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin').then(o => {
+        it('different childs begin time', () => {
+            return service.callInternal('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin').then(o => {
                 expect(o).property('childs').an('array').length(4);
                 expect(o).property('name').eql('test.asyncPassageWith4ChildsAnd1ErrorWithDifBegin');
                 expect(o).property('result').an('array').length(4);
@@ -137,9 +137,9 @@ describe('call', function() {
         });
     });
 
-    describe('Return error', () => {
-        it('String is not a function', () => {
-            return service.callRequest('test.throwError1', 'qwe').catch(o => {
+    describe('return error', () => {
+        it('string is not a function', () => {
+            return service.callInternal('test.throwError1', 'qwe').catch(o => {
                 expect(o).property('error').an('object');
                 expect(o).property('time').an('number');
                 expect(o).property('name').eql('test.throwError1');
@@ -149,8 +149,8 @@ describe('call', function() {
             });
         });
 
-        it('Throw number', () => {
-            return service.callRequest('test.throwError2').catch(o => {
+        it('throw number', () => {
+            return service.callInternal('test.throwError2').catch(o => {
                 expect(o).property('error');
                 expect(o).property('time');
                 expect(o).property('name');
@@ -160,45 +160,45 @@ describe('call', function() {
             });
         });
 
-        it('Throw string', () => {
-            return (service.callRequest('test.throwError3')).catch(o => {
+        it('throw string', () => {
+            return (service.callInternal('test.throwError3')).catch(o => {
                 expect(o).property('error').property('message').eql('123');
                 expect(o.error).property('details').eql('Service method error: test.throwError3');
             });
         });
 
-        it('Throw new error', () => {
-            return service.callRequest('test.throwError4').catch(o => {
+        it('throw new error', () => {
+            return service.callInternal('test.throwError4').catch(o => {
                 expect(o).property('error').property('message').eql('123');
                 expect(o.error).property('trace').an('array').property(0)
                     .property('fileName').contain('@test\\module.js');
             });
         });
 
-        it('Throw new service error', () => {
-            return service.callRequest('test.throwError5').catch(o => {
+        it('throw new service error', () => {
+            return service.callInternal('test.throwError5').catch(o => {
                 expect(o).property('error').property('message').eql('123');
                 expect(o.error).property('trace').an('array').property(0)
                     .property('fileName').contain('@test\\module.js');
             });
         });
 
-        it('Throw async error in call callback', () => {
-            return service.callRequest('test.throwAsyncErrorInCallCallback').catch(o => {
+        it('throw async error in call callback', () => {
+            return service.callInternal('test.throwAsyncErrorInCallCallback').catch(o => {
                 expect(o).property('childs').an('array').length(1);
                 expect(o).property('error');
             });
         });
 
-        it('Undefined method', () => {
-            return service.callRequest('test.undefinedMethod').catch(o => {
+        it('undefined method', () => {
+            return service.callInternal('test.undefinedMethod').catch(o => {
                 expect(o).property('error').property('code').eql(405);
                 expect(o.error).property('message').eql(`Method test.undefinedMethod has not found in module`);
                 expect(o.error).property('trace').an('array');
             });
         });
 
-        it('Undefined module', () => {
+        it('undefined module', () => {
             return service.call('undefinedModule.undefined').catch(o => {
                 expect(o).property('code').eql(400);
                 expect(o).property('message').eql(`Module 'undefinedModule' has not found in service`);
@@ -206,10 +206,10 @@ describe('call', function() {
             });
         });
 
-        it('Call with circle param', () => {
+        it('call with circle param', () => {
             let x = {};
             x.x = x;
-            return service.callRequest('test.returnParamsWithAddValue', x).catch(o => {
+            return service.callInternal('test.returnParamsWithAddValue', x).catch(o => {
                 expect(o).property('error');
                 expect(o).property('name').eql('test.returnParamsWithAddValue');
                 expect(o).property('error').an('object');
@@ -223,8 +223,8 @@ describe('call', function() {
             });
         });
 
-        it('Call returns circular result', () => {
-            return service.callRequest('test.returnCircular', 'some_param').catch(o => {
+        it('call returns circular result', () => {
+            return service.callInternal('test.returnCircular', 'some_param').catch(o => {
                 expect(o).property('name').eql('test.returnCircular');
                 expect(o).property('error').an('object');
                 expect(o).property('time').an('number').above(-1);
@@ -239,7 +239,7 @@ describe('call', function() {
             });
         });
 
-        it('Request calls count exceed', () => {
+        it('request calls count exceed', () => {
             return service.call('test.circle1').catch(error => {
                 expect(error).an('object').property('code').eql(507);
                 expect(error).property('details').eql('Request call count exceeded in test.circle2 (512th calls)');
@@ -247,28 +247,28 @@ describe('call', function() {
         });
     });
 
-    describe('Modules cooperation', () => {
-        it('Return value from other module', () => {
+    describe('modules cooperation', () => {
+        it('return value from other module', () => {
             return service.call('test1.callPublicMethodInTest').then(result => {
                 expect(result).eql({first: 'first', add: 'add'});
             });
         });
 
-        it('Method in other module returns error', () => {
+        it('method in other module returns error', () => {
             return service.call('test1.callPublicMethodReturnsError').catch(error => {
                 expect(error).property('message').eql('123');
                 expect(error).property('trace').an('array')
             });
         });
 
-        it('Method in other module returns complicated tree', () => {
+        it('method in other module returns complicated tree', () => {
             return service.call('test1.callMethodReturnsComplicatedTree').then(result => {
                 expect(result).eql('0,1,2 and 0-1-2');
             });
         });
 
-        it('Check to accessible method', () => {
-            return service.callRequest('test1.checkToAccessible').then(o => {
+        it('check to accessible method', () => {
+            return service.callInternal('test1.checkToAccessible').then(o => {
                 expect(o).property('result');
                 expect(o).property('childs').an('array').length(3);
 
@@ -284,8 +284,8 @@ describe('call', function() {
         });
     });
 
-    describe('Module', () => {
-        it('Settled params', () => {
+    describe('module', () => {
+        it('settled params', () => {
             return service.call('test.getModuleParam', '123').then(result => {
                 expect(result).eql([1, 2, 3, {param: 123}, '123']);
             });
