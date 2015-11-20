@@ -7,6 +7,12 @@ module.exports = {
             method: function() {
                 return 'returning_string';
             }
+        },
+        throwError: {
+            isPublic: true,
+            method: function() {
+                throw 'ERRROOOOORRRR!!!';
+            }
         }
     }
 };

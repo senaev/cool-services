@@ -2,21 +2,27 @@
 
 module.exports = {
     methods: {
+        returnString: {
+            isPublic: true,
+            method: function () {
+                return 'is test1 module'
+            }
+        },
         callPublicMethodInTest: {
             isPublic: true,
-            method: function() {
+            method: function () {
                 return this.call('test.returnParamsWithAddValue', {first: 'first'});
             }
         },
         callPublicMethodReturnsError: {
             isPublic: true,
-            method: function() {
+            method: function () {
                 return this.call('test.throwError5');
             }
         },
         callMethodReturnsComplicatedTree: {
             isPublic: true,
-            method: function() {
+            method: function () {
                 return Promise.all([
                     this.call('test.asyncPassageWith4ChildsAnd1Error'),
                     new Promise((resolve, reject) => {
@@ -34,12 +40,24 @@ module.exports = {
         },
         checkToAccessible: {
             isPublic: true,
-            method: function() {
+            method: function () {
                 return Promise.all([
                     this.call('test.publicMethod'),
                     this.call('test.apiMethod'),
                     this.call('test.privateMethod').catch(error => Promise.resolve(error))
                 ]);
+            }
+        },
+        callExternal:  {
+            isPublic: true,
+            method: function () {
+                return this.call('test2.returnString');
+            }
+        },
+        callExternalReturnsError: {
+            isPublic: true,
+            method: function () {
+                return this.call('test2.throwError');
             }
         }
     }
