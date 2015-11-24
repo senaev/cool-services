@@ -352,7 +352,7 @@ describe('calls', function () {
     describe('module', () => {
         it('settled params', () => {
             return service.call('test.getModuleParam', '123').then(result => {
-                expect(result).eql([1, 2, 3, {param: 123}, '123']);
+                expect(result).eql([1, 2, 3, {param: 123}, '123', 555, 777]);
             });
         });
     });

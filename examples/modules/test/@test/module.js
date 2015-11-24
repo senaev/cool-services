@@ -164,6 +164,12 @@ module.exports = {
                 let arr = this.get('array');
                 arr.push(this.get('object'), str);
                 this.get('object').param = 123;
+
+                this.data.lalala = 555;
+                this.data.lololo = 777;
+
+                this.data.array.push(this.data.lalala, this.data.lololo);
+
                 return arr;
             }
         }
