@@ -59,6 +59,12 @@ module.exports = {
             method: function () {
                 return this.call('test2.throwError');
             }
+        },
+        callTest3ReturnString: {
+            isPublic: true,
+            method: function(params) {
+                return this.call('test3.returnString', params);
+            }
         }
     }
 };

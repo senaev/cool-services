@@ -225,6 +225,43 @@ describe('calls', function () {
                 });
         });
 
+        it('bad moduleMethod', () => {
+            return Promise.all([
+                service.call('-modulee.undefined').then(assert.fail).catch(o => {
+                    expect(o).property('trace').an('array').length.least(1);
+                    expect(o).property('message').eql('Invalid module name: -modulee');
+                }),
+                service.call('modulee.-undefined').then(assert.fail).catch(o => {
+                    expect(o).property('trace').an('array').length.least(1);
+                    expect(o).property('message').eql('Invalid method name: -undefined');
+                }),
+                service.call('Mod..ulee.undi-efined').then(assert.fail).catch(o => {
+                    expect(o).property('message').contain('Invalid module name: Mod..ulee');
+                }),
+                service.call('Mod..ulee.-undi-efined').then(assert.fail).catch(o => {
+                    expect(o).property('message').contain('Invalid module name: Mod..ulee');
+                }),
+                service.call('Mo--Dul.---eXXX.Qndi-efineR').then(assert.fail).catch(o => {
+                    expect(o).property('message').eql('Invalid module name: Mo--Dul.---eXXX');
+                }),
+                service.call('Mo--DuЙl---eXXX.Qndi-efineR').then(assert.fail).catch(o => {
+                    expect(o).property('message').eql('Invalid module name: Mo--DuЙl---eXXX');
+                }),
+                service.call('Mo--DuЙl---eXXXQndi-efineR').then(assert.fail).catch(o => {
+                    expect(o).property('message').eql('ModuleMethod must have dot: Mo--DuЙl---eXXXQndi-efineR');
+                }),
+                service.call('Mo--Dul---eXXX.Qndi-efineR').then(assert.fail).catch(o => {
+                    expect(o).property('message').contain('not found in service');
+                }),
+                service.call('Mo--D.ul---eXXX.Qndi-efineR').then(assert.fail).catch(o => {
+                    expect(o).property('message').contain('not found in service');
+                }),
+                service.call('modulee.undi-efined').then(assert.fail).catch(o => {
+                    expect(o).property('message').contain('not found in service');
+                })
+            ]);
+        });
+
         it('call with circle param', () => {
             let x = {};
             x.x = x;
@@ -250,7 +287,7 @@ describe('calls', function () {
                 .catch(o => {
                     expect(o).property('name').eql('test.returnCircular');
                     expect(o).property('error').an('object');
-                    expect(o).property('time').a('number').above(-1);
+                    expect(o).property('time').a('number').least(0);
                     expect(o).property('params').eql('some_param');
 
                     const error = o.error;
