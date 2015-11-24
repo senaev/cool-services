@@ -14,11 +14,8 @@ const app2 = express();
 //создаём сервис
 const Service = require(path.normalize(__dirname + '/..'));
 const service = new Service();
-service.name = '0000000';
 const service1 = new Service();
-service1.name = '1111111';
 const service2 = new Service();
-service2.name = '2222222';
 
 app.post('/service', service.call());
 app.post('/test', (req, res) => {
@@ -49,11 +46,7 @@ before(() => {
         service1.addSource(path.normalize(__dirname + '/../examples/modules/test')),
         service2.addSource(path.normalize(__dirname + '/../examples/modules/test2')),
         service2.addSource(path.normalize(__dirname + '/../examples/modules/test3'))
-    ])).then(() => {
-        /*console.log(service.modulesNames);
-         console.log(service1.modulesNames);
-         console.log(service2.modulesNames);*/
-    });
+    ]));
 });
 
 service.addExternal({
