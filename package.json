@@ -2,7 +2,7 @@
   "name": "cool-services",
   "description": "Framework for support service modules for node.js",
   "version": "0.0.1",
-  "author": "Andrey Denaev <gsacryfice@gmail.com>",
+  "author": "Andrey Senaev <gsacryfice@gmail.com>",
   "contributors": [],
   "license": "MIT",
   "repository": "senaev/cool-services",
@@ -17,17 +17,26 @@
     "app",
     "api"
   ],
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "1.13.3",
+    "express": "4.13.3",
+    "request": "^2.66.0",
+    "stack-trace": "0.0.9"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.3"
+  },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 5.0.0",
+    "npm": ">= 3.3.6"
   },
   "files": [
-    "LICENSE",
-    "History.md",
-    "Readme.md",
+    "README.MD",
     "index.js",
     "lib/"
   ],
-  "scripts": {}
+  "scripts": {
+    "test": "mocha -t 10000"
+  }
 }
