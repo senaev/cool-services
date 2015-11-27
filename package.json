@@ -32,9 +32,7 @@
     "npm": ">= 3.3.6"
   },
   "files": [
-    "LICENSE",
-    "History.md",
-    "Readme.md",
+    "README.MD",
     "index.js",
     "lib/"
   ],

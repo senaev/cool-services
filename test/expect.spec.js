@@ -9,11 +9,11 @@ const assert = chai.assert;
 const Service = require(path.normalize(__dirname + '/..'));
 const service = new Service();
 
-before(function () {
+before(function() {
     return service.addSource(path.normalize(__dirname + '/../examples/modules/test3'));
 });
 
-describe('expect', function () {
+describe('expect', function() {
     it('string check in function', () => {
         return service.call('test3.expectString', 'string').then(str => {
             expect(str).eql('string: is_string');
@@ -120,9 +120,8 @@ describe('expect', function () {
 
     it('expected array length', () => {
         return service.call('test3.expectArray', [1, 2, 3, 4, 5, 6, 7]).then(assert.fail).catch(e => {
-            expect(e).property('message')
-                .eql('Bad expectation in test3.expectArray: expected array length');
-            expect(e).property('code').eql(500);
+            expect(e).property('details').eql('<PARAMS>: expected array length');
+            expect(e).property('code').eql(417);
         });
     });
 
@@ -150,7 +149,7 @@ describe('expect', function () {
         });
     });
 
-    it('expect any array', () => {
+    it('any array', () => {
         return Promise.all([
             service.call('test3.expectAnyArray', []),
             service.call('test3.expectAnyArray', [1, 2, 3, 4, 5]),
@@ -158,7 +157,7 @@ describe('expect', function () {
         ]).then(o => expect(o).eql([null, null, null]));
     });
 
-    it('expect any array error', () => {
+    it('any array error', () => {
         return service.call('test3.expectAnyArray', {}).then(assert.fail).catch(e => {
             expect(e).property('message')
                 .eql('Expectanion error in test3.expectAnyArray');
@@ -167,7 +166,7 @@ describe('expect', function () {
         });
     });
 
-    it('expect array with similar params', () => {
+    it('array with similar params', () => {
         return Promise.all([
             service.call('test3.expectArrayWithSimilarParams', []),
             service.call('test3.expectArrayWithSimilarParams', [5, 5, 5, 5, 5]),
@@ -175,7 +174,7 @@ describe('expect', function () {
         ]).then(o => expect(o).eql([null, null, null]));
     });
 
-    it('expect array with similar params error', () => {
+    it('array with similar params error', () => {
         return service.call('test3.expectArrayWithSimilarParams', [5, 5, 5, 4, 5]).then(assert.fail).catch(e => {
             expect(e).property('message')
                 .eql('Expectanion error in test3.expectArrayWithSimilarParams');
@@ -184,7 +183,7 @@ describe('expect', function () {
         });
     });
 
-    it('expect array with similar params 1', () => {
+    it('array with similar params 1', () => {
         return Promise.all([
             service.call('test3.expectArrayWithSimilarParams1', []),
             service.call('test3.expectArrayWithSimilarParams1', [{
@@ -204,7 +203,28 @@ describe('expect', function () {
         ]).then(o => expect(o).eql([null, null, null]));
     });
 
-    it('expect array with similar params error 1', () => {
+    it('array with constantly params', () => {
+        return service.call('test3.expectArrayWithConstantlyParams', [1, 2, 3, 4, '5', 6])
+            .then(o => expect(o).eql(null));
+    });
+
+    it('array with constantly params error', () => {
+        return service.call('test3.expectArrayWithConstantlyParams', [1, 2, 3, 4, '5', 7])
+            .then(assert.fail).catch(e => {
+                expect(e).property('message').eql('Expectanion error in test3.expectArrayWithConstantlyParams');
+                expect(e).property('details').eql('<PARAMS>[5]: 7 != 6');
+            });
+    });
+
+    it('array with constantly params length error', () => {
+        return service.call('test3.expectArrayWithConstantlyParams', [1, 2, 3, 4, '5', 7, 8])
+            .then(assert.fail).catch(e => {
+                expect(e).property('message').eql('Expectanion error in test3.expectArrayWithConstantlyParams');
+                expect(e).property('details').eql('<PARAMS>: expected array length');
+            });
+    });
+
+    it('array with similar params error 1', () => {
         return service.call('test3.expectArrayWithSimilarParams1', [{
             hello: 'lkjhjklhk',
             qwe: 'qwe'
